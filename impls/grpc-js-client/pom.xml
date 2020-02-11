@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd" xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+  <modelVersion>4.0.0</modelVersion>
+  <parent>
+    <groupId>org.hitachivantara.grpc-poc</groupId>
+    <artifactId>impls</artifactId>
+    <version>9.1.0.0-SNAPSHOT</version>
+  </parent>
+
+  <artifactId>echo-grpc-js-client-impl</artifactId>
+  <packaging>bundle</packaging>
+
+  <properties>
+    <!-- We're using this property to identify the dependencies that contain proto definitions for which
+         we want to generate code. -->
+    <proto.api.artifactIds>proto-api</proto.api.artifactIds>
+  </properties>
+
+  <dependencies>
+    <!-- This dependency contains the gRPC api that the module is going to implement. -->
+    <dependency>
+      <groupId>org.hitachivantara.grpc-poc</groupId>
+      <artifactId>proto-api</artifactId>
+      <version>${project.version}</version>
+    </dependency>
+
+  </dependencies>
+</project>

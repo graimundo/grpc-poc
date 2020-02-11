@@ -13,6 +13,7 @@
 
   <modules>
     <module>grpc</module>
+    <module>grpc-js-client</module>
     <module>echo</module>
   </modules>
 
