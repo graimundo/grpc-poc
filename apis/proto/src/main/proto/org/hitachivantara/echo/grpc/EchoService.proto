@@ -1,6 +1,9 @@
 syntax = "proto3";
 
 package org.hitachivantara.echo.grpc;
+
+// import "google/api/annotations.proto";
+
 option java_multiple_files = true;
 
 message EchoRequest {
@@ -13,4 +16,12 @@ message EchoResponse {
 
 service EchoService {
     rpc Echo(EchoRequest) returns (EchoResponse);
+        /*
+    {
+        option (google.api.http) = {
+          post: "/v1/example/echo"
+          body: "*"
+        };
+    }
+*/
 }

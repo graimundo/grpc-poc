@@ -11,11 +11,6 @@
   <artifactId>echo-grpc-impl</artifactId>
   <packaging>bundle</packaging>
 
-  <properties>
-    <!-- We're using this property to identify the dependencies that contain proto definitions for which
-         we want to generate code. -->
-    <proto.api.artifactIds>proto-api</proto.api.artifactIds>
-  </properties>
 
   <dependencies>
     <!-- This dependency contains the gRPC api that the module is going to implement. -->

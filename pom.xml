@@ -25,7 +25,9 @@
   </developers>
 
   <properties>
-    <protobuf.version>3.11.3</protobuf.version>
+    <os-maven-plugin.version>1.6.2</os-maven-plugin.version>
+    <protobuf-maven-plugin.version>0.6.1</protobuf-maven-plugin.version>
+    <protoc.version>3.11.3</protoc.version>
     <grpc.version>1.27.0</grpc.version>
   </properties>
 
@@ -61,54 +63,14 @@
   </modules>
 
   <profiles>
-    <profile>
-      <id>extract-proto</id>
-      <!-- Using folder based markers for profile activation -->
-      <activation>
-        <file>
-          <exists>${basedir}/src/build/proto</exists>
-        </file>
-      </activation>
-
-      <properties>
-        <protoSourceRoot>${project.build.directory}/protoc-src</protoSourceRoot>
-      </properties>
-
-      <build>
-        <plugins>
-          <plugin>
-            <groupId>org.apache.maven.plugins</groupId>
-            <artifactId>maven-dependency-plugin</artifactId>
-            <executions>
-              <execution>
-                <!-- Unpack proto files from listed dependency artifacts. -->
-                <id>unpack-proto-api</id>
-                <goals>
-                  <goal>unpack-dependencies</goal>
-                </goals>
-                <phase>generate-sources</phase>
-                <configuration>
-                  <includeArtifactIds>${proto.api.artifactIds}</includeArtifactIds>
-                  <includes>**/*.proto</includes>
-                  <outputDirectory>${protoSourceRoot}</outputDirectory>
-                </configuration>
-              </execution>
-            </executions>
-          </plugin>
-        </plugins>
-      </build>
-
-    </profile>
 
     <profile>
-      <!-- Generates java code for proto definitions in the dependencies referenced in the
-           property proto.api.artifactIds. -->
       <id>proto-to-java</id>
 
       <!-- Using folder based markers for profile activation -->
       <activation>
         <file>
-          <exists>${basedir}/src/build/proto/gen-java</exists>
+          <exists>${basedir}/src/main/proto</exists>
         </file>
       </activation>
 
@@ -149,51 +111,6 @@
 
     </profile>
 
-    <profile>
-      <!-- Generates js code for proto definitions in the dependencies referenced in the
-             property proto.api.artifactIds. -->
-      <id>proto-to-js</id>
-
-      <!-- Using folder based markers for profile activation -->
-      <activation>
-        <file>
-          <exists>${basedir}/src/build/proto/gen-js</exists>
-        </file>
-      </activation>
-
-      <properties>
-        <grpc-web.version>1.0.7</grpc-web.version>
-        <protoc.js.import-style>commonjs</protoc.js.import-style>
-      </properties>
-
-      <build>
-        <plugins>
-          <plugin>
-            <groupId>org.xolstice.maven.plugins</groupId>
-            <artifactId>protobuf-maven-plugin</artifactId>
-            <executions>
-              <execution>
-                <id>generate-grpc-js</id>
-                <goals>
-                  <goal>compile-js</goal>
-                  <goal>compile-custom</goal>
-                </goals>
-                <configuration>
-                  <javaScriptOptions>import_style=${protoc.js.import-style}</javaScriptOptions>
-                  <pluginId>grpc-web</pluginId>
-                  <outputDirectory>${project.build.directory}/generated-sources/protobuf/js</outputDirectory>
-                  <clearOutputDirectory>false</clearOutputDirectory>
-                  <!-- Because there is no maven artifact for the grpc-web protoc plugin, we are referencing it from project root folder.
-                       Not pretty or robust but functional for the POC. In the future use toolchain or other. -->
-                  <pluginExecutable>${project.rootdir}/bin/protoc-gen-grpc-web-${grpc-web.version}-${os.detected.classifier}</pluginExecutable>
-                  <pluginParameter>import_style=${protoc.js.import-style},mode=grpcwebtext</pluginParameter>
-                </configuration>
-              </execution>
-            </executions>
-          </plugin>
-        </plugins>
-      </build>
-    </profile>
   </profiles>
 
   <build>
@@ -201,7 +118,7 @@
       <extension>
         <groupId>kr.motd.maven</groupId>
         <artifactId>os-maven-plugin</artifactId>
-        <version>1.6.2</version>
+        <version>${os-maven-plugin.version}</version>
       </extension>
     </extensions>
     <pluginManagement>
@@ -209,14 +126,14 @@
         <plugin>
           <groupId>org.xolstice.maven.plugins</groupId>
           <artifactId>protobuf-maven-plugin</artifactId>
-          <version>0.6.1</version>
+          <version>${protobuf-maven-plugin.version}</version>
           <configuration>
-            <protocArtifact>com.google.protobuf:protoc:${protobuf.version}:exe:${os.detected.classifier}</protocArtifact>
-            <attachProtoSources>false</attachProtoSources>
-            <protoSourceRoot>${protoSourceRoot}</protoSourceRoot>
+            <protocArtifact>com.google.protobuf:protoc:${protoc.version}:exe:${os.detected.classifier}</protocArtifact>
           </configuration>
         </plugin>
       </plugins>
     </pluginManagement>
+
+
   </build>
 </project>
