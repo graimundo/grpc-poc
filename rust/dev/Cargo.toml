@@ -1,0 +1,22 @@
+[package]
+name = "dev"
+version = "0.1.0"
+edition = "2021"
+
+# See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
+
+[[bin]]
+name = "grpc-server"
+path = "src/server.rs"
+
+[[bin]]
+name = "grpc-client"
+path = "src/client.rs"
+
+[dependencies]
+tonic = "0.8"
+prost = "0.11"
+tokio = { version = "1.0", features = ["macros", "rt-multi-thread"] }
+echo-grpc = { path = "../impls/echo-grpc", version = "0.1.0" } # normally this would only reference a version published to a registry
+echo-api = { path = "../apis/echo", version = "0.1.0" } # normally this would only reference a version published to a registry
+echo-impl = { path = "../impls/echo", version = "0.1.0" } # normally this would only reference a version published to a registry
