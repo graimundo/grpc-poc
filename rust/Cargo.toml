@@ -1,0 +1,8 @@
+[workspace]
+
+members = [
+    "apis/echo",
+    "impls/echo",
+    "impls/echo-grpc",
+    "dev"
+]

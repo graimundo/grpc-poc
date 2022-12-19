@@ -1,0 +1,9 @@
+[package]
+name = "echo-impl"
+version = "0.1.0"
+edition = "2021"
+
+# See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
+
+[dependencies]
+echo-api = { path = "../../apis/echo", version = "0.1.0" } # normally this would only reference a version published to a registry
